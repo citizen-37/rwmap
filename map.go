@@ -21,6 +21,13 @@ func (c *RWMap[K, V]) Set(key K, val V) {
 	c.list[key] = val
 }
 
+func (c *RWMap[K, V]) Unset(key K) {
+	c.mx.Lock()
+	defer c.mx.Unlock()
+
+	delete(c.list, key)
+}
+
 func (c *RWMap[K, V]) Get(key K) V {
 	c.mx.RLock()
 	defer c.mx.RUnlock()
