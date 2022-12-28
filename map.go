@@ -35,13 +35,13 @@ func (c *RWMap[K, V]) Get(key K) V {
 	return c.list[key]
 }
 
-func (c *RWMap[K, V]) List() []V {
+func (c *RWMap[K, V]) List() map[K]V {
 	c.mx.RLock()
 	defer c.mx.RUnlock()
 
-	res := make([]V, 0, len(c.list))
-	for _, v := range c.list {
-		res = append(res, v)
+	res := make(map[K]V)
+	for k, v := range c.list {
+		res[k] = v
 	}
 
 	return res
